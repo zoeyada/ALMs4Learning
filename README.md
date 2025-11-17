@@ -35,7 +35,8 @@ ALMs4Learning/
 │   ├── cascaded_asr_llms/        # ASR front-ends, LLM back-ends, parsing
 │   ├── existing_alms/            # GPT-4o, Qwen Audio, Qwen2 Audio baselines
 │   └── instruction_tuning/       # Model configs, training, inference, parsing
-└── eval/                         # Unified evaluation script + results
+├── eval/                        # Unified evaluation script + results
+└── requirements.txt
 ```
 
 ## 🎙️ Data Preparation
