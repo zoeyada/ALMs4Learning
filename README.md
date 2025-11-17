@@ -11,8 +11,6 @@ We investigate how **Large Audio-Language Models (ALMs)** can be adapted for **L
 
 All experiments were conducted on **NVIDIA A40 GPUs (46GB)** using strictly controlled prompts and evaluation protocols.
 
----
-
 ## 🛠️ Environment & Dependencies
 
 ```bash
