@@ -17,12 +17,7 @@ All experiments were conducted on **NVIDIA A40 GPUs (46GB)** using strictly cont
 git clone <your-git-remote> ALMs4Learning
 cd ALMs4Learning
 
-# Python 3.10.6, PyTorch 2.7.1+cu118, Transformers 4.45.1
-python3.10 -m venv .venv
-source .venv/bin/activate
-
-pip install --upgrade pip
-pip install -r requirements.txt
+conda env create -f environment.yml
 ```
 
 ## 📁 Project Layout
@@ -36,7 +31,7 @@ ALMs4Learning/
 │   ├── existing_alms/            # GPT-4o, Qwen Audio, Qwen2 Audio baselines
 │   └── instruction_tuning/       # Model configs, training, inference, parsing
 ├── eval/                         # Unified evaluation script + results
-└── requirements.txt
+└── environment.yml
 ```
 
 ## 🎙️ Data Preparation
@@ -94,7 +89,7 @@ python ./pipelines/cascaded_asr_llms/asr/wav2vec2.py
 Each script loads `train_data.json` and `test_data.json`, runs ASR using Whisper or Wav2Vec2, and writes outputs to:
 
 ```bash
-./pipelines/cascaded_asr_llms/asr/results/{train,test}/<model>.json
+./pipelines/cascaded_asr_llms/asr/results/{train,test}/<asr>.json
 ```
 
 #### LLM Feedback Generation

@@ -42,6 +42,6 @@ dependencies:
       - s3transfer==0.16.0
       - six==1.17.0
       - tokenizers==0.19.1
-      - transformers==4.44.2
+      - transformers==4.45.0
       - triton==2.1.0
       - typer-slim==0.21.1
