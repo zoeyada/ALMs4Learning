@@ -1,0 +1,16 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.swp
+*.swo
+*.log
+*.tmp
+.ipynb_checkpoints/
+.env
+venv/
+*.ckpt
+*.pt
+*.bin
+*.pth
+*.jsonl
