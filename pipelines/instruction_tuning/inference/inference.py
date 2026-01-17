@@ -32,6 +32,9 @@ model, tokenizer = load_trained_lora_model(
     modality_builder_type=modality_builder_type
 )
 
+model = model.to(torch.bfloat16)
+model.eval()
+
 PROMPT = '''Your task is to analyze the provided audio and compare it with the Ground Truth to identify pronunciation differences at the phoneme level.
 The audio in <speech> contains a recording by a non-native English speaker. 
 
@@ -60,10 +63,11 @@ def clean_text(text):
     return text.translate(str.maketrans("", "", punctuation_to_remove))
 
 with open(test_data, "r") as f:
-    data = json.load(f)
+    data = json.load(f)[:2]
+
 results = []
 
-for i, entry in enumerate(data):
+for entry in data:
     audio_path = entry["audio_path"]
     text = clean_text(entry["text"])
 
@@ -79,12 +83,37 @@ for i, entry in enumerate(data):
     }
 
     encoded_dict = encode_chat(input_data, tokenizer, model.modalities, model_cls)
-    input_ids = torch.tensor(encoded_dict["input_ids"]).unsqueeze(0).to(model.device)
-    modality_inputs = {m.name: [encoded_dict[m.name]] for m in model.modalities}
 
-    with torch.inference_mode():
+    input_ids = (
+        encoded_dict["input_ids"]
+        .clone()
+        .detach()
+        .unsqueeze(0)
+        .to(model.device)
+    )
+
+    modality_inputs = {}
+    for m in model.modalities:
+        val = encoded_dict[m.name]
+
+        def cast_bf16(x):
+            if torch.is_tensor(x):
+                return x.to(device=model.device, dtype=torch.bfloat16)
+            return x
+
+        if isinstance(val, (list, tuple)):
+            val = [cast_bf16(v) for v in val]
+        elif isinstance(val, dict):
+            val = {k: cast_bf16(v) for k, v in val.items()}
+        else:
+            val = cast_bf16(val)
+
+        modality_inputs[m.name] = [val]
+
+    with torch.inference_mode(), torch.amp.autocast(device_type="cuda", dtype=torch.bfloat16):
         output_ids = model.generate(
             input_ids=input_ids,
+            pad_token_id=tokenizer.eos_token_id,
             max_new_tokens=1024,
             do_sample=True,
             temperature=0.01,
@@ -92,7 +121,8 @@ for i, entry in enumerate(data):
         )
 
     output = tokenizer.decode(
-        output_ids[0, input_ids.shape[1]:], skip_special_tokens=True
+        output_ids[0, input_ids.shape[1]:],
+        skip_special_tokens=True
     ).strip()
 
     entry["speculative_mispronunciations"] = output

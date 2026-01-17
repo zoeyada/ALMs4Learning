@@ -1,7 +1,7 @@
 
 # Unlocking Large Audio-Language Models for Interactive Language Learning
 
-![Pipeline Overview](/image/pipeline.jpg)
+![Pipeline Overview](/image/fig_pipeline.jpg)
 
 We investigate how **Large Audio-Language Models (ALMs)** can be adapted for **L2 pronunciation training**, focusing on mispronunciation detection and human-friendly feedback generation.  The system covers three components:
 
@@ -73,6 +73,7 @@ Finetuning Dataset:
 ```bash
 python data/training_datasets/build/build_finetune_dataset.py \
     --output_folder ./data/training_datasets/finetune \
+    --num_proc 10
 ```
 
 Generated HuggingFace datasets:

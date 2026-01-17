@@ -77,12 +77,7 @@ class LlamaLMMForCausalLM(LlamaForCausalLM, LMMMetaForCausalLM):
         )
         return_dict = (
             return_dict if return_dict is not None else self.config.use_return_dict
-        )
-        # print(f"input ids: {input_ids}, input embedding{inputs_embeds}")
-        
-        # # Ensure modalities are set correctly
-        # if self.modalities is None:
-        #     self.modalities = self.config.modalities        
+        )      
         
         (
             input_ids,
@@ -145,22 +140,13 @@ class LlamaLMMForCausalLM(LlamaForCausalLM, LMMMetaForCausalLM):
         modality_inputs=None,
         **kwargs
     ):
-        # if isinstance(past_key_values, tuple):
-        #     input_ids = input_ids[:, -1:]
         
         if past_key_values:
             input_ids = input_ids[:, -1:]
             
-        # print(past_key_values)
-        # if not isinstance(past_key_values, tuple):
-        #     if len(past_key_values.key_cache)!=0:
-        #         input_ids = input_ids[:, -1:]
-        #     else:
-        #         past_key_values = None
-
         if inputs_embeds is not None:
             raise ValueError("inputs_embeds not supported")
-        # print(past_key_values)
+
         model_inputs = {
             "input_ids": input_ids,
             "position_ids": None,

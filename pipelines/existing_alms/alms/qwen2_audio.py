@@ -8,14 +8,14 @@ import os
 test_data = "./data/L2-Arctic-plus/test_data.json"
 with open(test_data, "r") as f:
     test_data = json.load(f)
-    test_data = test_data[:2]
+    # test_data = test_data[:2]
 
 # Load model and processor, qwen or qwen2
 
 #  qwen2-audio
 processor = AutoProcessor.from_pretrained("Qwen/Qwen2-Audio-7B-Instruct", trust_remote_code=True)
 model = Qwen2AudioForConditionalGeneration.from_pretrained("Qwen/Qwen2-Audio-7B-Instruct", trust_remote_code=True, device_map="auto")
-output_path = "./pipelines/existing_alms/results/qwen2.json"
+output_path = "./pipelines/existing_alms/alms/results/qwen2.json"
 
 # qwen-audio
 # tokenizer = AutoTokenizer.from_pretrained("Qwen/Qwen-Audio-Chat", trust_remote_code=True)

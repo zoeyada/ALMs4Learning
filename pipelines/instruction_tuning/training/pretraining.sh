@@ -11,7 +11,7 @@ asr_name=$( [[ $modality_builder == *wav2vec2* ]] && echo wav2vec2 || echo whisp
 # set your hyperparameters.
 # note: per_device_train_batch_size × gradient_accumulation_steps × num_gpus = 256 (batch size）
 per_device_train_batch_size=8
-gradient_accumulation_steps=8
+gradient_accumulation_steps=16
 lr=1e-3 # for whisper, 1e-3 is good; for wav2vec2, 2e-4 is good
 
 # set your dataset path and output dir

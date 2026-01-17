@@ -86,57 +86,57 @@ def encode_chat(
         # # exit()
         
         
-        # chat_as_string = ""
-        # for message in messages:
-        #     if message["role"] == "user":
-        #         chat_as_string += message["content"] + " "
-        #     elif message["role"] in ["system", "assistant"]:
-        #         chat_as_string += message["content"] + " "
+    #     chat_as_string = ""
+    #     for message in messages:
+    #         if message["role"] == "user":
+    #             chat_as_string += message["content"] + " "
+    #         elif message["role"] in ["system", "assistant"]:
+    #             chat_as_string += message["content"] + " "
         
-        # # print("chat_as_string", chat_as_string)
+    #     # print("chat_as_string", chat_as_string)
         
-        # token_to_modality = {m.token: m for m in modalities}
-        # modality_token_counts = Counter()
+    #     token_to_modality = {m.token: m for m in modalities}
+    #     modality_token_counts = Counter()
 
-        # pattern = "(" + "|".join(re.escape(m.token) for m in modalities) + ")"
-        # chat_part = re.split(pattern, chat_as_string)
+    #     pattern = "(" + "|".join(re.escape(m.token) for m in modalities) + ")"
+    #     chat_part = re.split(pattern, chat_as_string)
 
-        # # print("chat_part", chat_part)
-        # # exit()
-        # input_ids = []
-        # labels = []
+    #     # print("chat_part", chat_part)
+    #     # exit()
+    #     input_ids = []
+    #     labels = []
 
-        # for part in chat_part:
-        #     if not part:
-        #         continue
-        #     if part in token_to_modality:
-        #         m = token_to_modality[part]
-        #         modality_token_counts[m.name] += 1
-        #         input_ids.extend([m.token_idx] * m.token_width)
-        #         labels.extend([IGNORE_INDEX] * m.token_width)
-        #     else:
-        #         part_ids = tokenizer(part, add_special_tokens=False).input_ids
-        #         input_ids.extend(part_ids)
-        #         labels.extend(part_ids)
+    #     for part in chat_part:
+    #         if not part:
+    #             continue
+    #         if part in token_to_modality:
+    #             m = token_to_modality[part]
+    #             modality_token_counts[m.name] += 1
+    #             input_ids.extend([m.token_idx] * m.token_width)
+    #             labels.extend([IGNORE_INDEX] * m.token_width)
+    #         else:
+    #             part_ids = tokenizer(part, add_special_tokens=False).input_ids
+    #             input_ids.extend(part_ids)
+    #             labels.extend(part_ids)
 
-        # input_ids = torch.tensor(input_ids, dtype=torch.long)
-        # labels = torch.tensor(labels, dtype=torch.long)
+    #     input_ids = torch.tensor(input_ids, dtype=torch.long)
+    #     labels = torch.tensor(labels, dtype=torch.long)
         
-        # # print("input_ids", input_ids, "labels", labels)
-        # # exit()
+    #     # print("input_ids", input_ids, "labels", labels)
+    #     # exit()
         
-        # data_dict = {
-        #     "input_ids": input_ids,
-        #     "labels": labels,
-        # }
-        # for modality in modalities:
-        #     # if not modality:
-        #     #     continue
-        #     # print("modality.name:", modality.name)
-        #     # exit()
-        #     data_dict[modality.name] = modality.preprocess_rows([item])[0]
-        #     # print(data_dict)
-        #     # exit()
+    #     data_dict = {
+    #         "input_ids": input_ids,
+    #         "labels": labels,
+    #     }
+    #     for modality in modalities:
+    #         # if not modality:
+    #         #     continue
+    #         # print("modality.name:", modality.name)
+    #         # exit()
+    #         data_dict[modality.name] = modality.preprocess_rows([item])[0]
+    #         # print(data_dict)
+    #         # exit()
             
     if (model_cls == "MistralLMMForCausalLM"):
         # print("data_tool, MistralLMMForCausalLM")
@@ -201,277 +201,6 @@ def encode_chat(
         # print("data_dict:", data_dict)
 
     return data_dict
-
-# Change encode_chat for Llama 11/4
-# def encode_chat(
-#     item: Dict,
-#     tokenizer: transformers.PreTrainedTokenizer,
-#     modalities: List["Modality"],
-# ) -> Dict:
-#     messages = list(item["messages"])
-    
-#     chat_as_string = ""
-#     for message in messages:
-#         if message["role"] == "user":
-#             chat_as_string += message["content"] + " "
-#         elif message["role"] in ["system", "assistant"]:
-#             chat_as_string += message["content"] + " "
-    
-#     # print("chat_as_string", chat_as_string)
-    
-#     token_to_modality = {m.token: m for m in modalities}
-#     modality_token_counts = Counter()
-
-#     pattern = "(" + "|".join(re.escape(m.token) for m in modalities) + ")"
-#     chat_part = re.split(pattern, chat_as_string)
-
-#     # print("chat_part", chat_part)
-#     # exit()
-#     input_ids = []
-#     labels = []
-
-#     for part in chat_part:
-#         if not part:
-#             continue
-#         if part in token_to_modality:
-#             m = token_to_modality[part]
-#             modality_token_counts[m.name] += 1
-#             input_ids.extend([m.token_idx] * m.token_width)
-#             labels.extend([IGNORE_INDEX] * m.token_width)
-#         else:
-#             part_ids = tokenizer(part, add_special_tokens=False).input_ids
-#             input_ids.extend(part_ids)
-#             labels.extend(part_ids)
-
-#     input_ids = torch.tensor(input_ids, dtype=torch.long)
-#     labels = torch.tensor(labels, dtype=torch.long)
-    
-#     # print("input_ids", input_ids, "labels", labels)
-#     # exit()
-    
-#     data_dict = {
-#         "input_ids": input_ids,
-#         "labels": labels,
-#     }
-#     for modality in modalities:
-#         # if not modality:
-#         #     continue
-#         # print("modality.name:", modality.name)
-#         # exit()
-#         data_dict[modality.name] = modality.preprocess_rows([item])[0]
-#         # print(data_dict)
-#         # exit()
-
-#     return data_dict
-
-# # Change encode_chat for Llama 9/24
-# """
-# chat_part: 
-# ['<|begin_of_text|>', 
-# '<|start_header_id|>user<|end_header_id|>\n\nCould you transcribe <speech> for me?<|eot_id|>', 
-# '<|start_header_id|>assistant<|end_header_id|>\n\nThe school is surrounded by farms and wind turbines.<|eot_id|>']
-# """
-# def encode_chat(
-#     item: Dict,
-#     tokenizer: transformers.PreTrainedTokenizer,
-#     modalities: List["Modality"],
-# ) -> Dict:
-#     messages = list(item["messages"])
-#     chat_as_string = tokenizer.apply_chat_template(messages, tokenize=False)
-
-#     token_to_modality = {m.token: m for m in modalities}
-
-#     # print("modalities", modalities)
-#     # modalities [<multi_token.modalities.audio_whisper.WhisperAudioModality object at 0x7f5b25c91420>]
-    
-#     modality_token_counts = Counter()
-#     instruct_pattern = r"(<\|start_header_id\|>user<\|end_header_id\|>[\s\S]*?<\|eot_id\|>)"
-#     pattern = "(" + "|".join(re.escape(m.token) for m in modalities) + ")"
-
-#     chat_part = re.split(instruct_pattern, chat_as_string)
-#     input_ids = []
-#     labels = []
-    
-#     # print("chat_part:", chat_part)
-    
-#     for part in chat_part:
-#         if "<|start_header_id|>user<|end_header_id|>" in part:
-#             is_instruction = True
-#         else:
-#             is_instruction = False
-#         for subpart in re.split(pattern, part):
-#             if not subpart:
-#                 continue
-#             if subpart in token_to_modality:
-#                 assert (
-#                     is_instruction
-#                 ), "There should be no modality tokens outside of instructions"
-#                 m = token_to_modality[subpart]
-                
-#                 modality_token_counts[m.name] += 1
-#                 input_ids.extend([m.token_idx] * m.token_width)
-#                 labels.extend([IGNORE_INDEX] * m.token_width)
-                
-#             elif is_instruction:
-#                 part_ids = tokenizer(subpart, add_special_tokens=False).input_ids
-#                 input_ids.extend(part_ids)
-#                 labels.extend([IGNORE_INDEX] * len(part_ids))
-#             else:
-#                 part_ids = tokenizer(subpart, add_special_tokens=False).input_ids
-#                 input_ids.extend(part_ids)
-#                 labels.extend(part_ids)
-
-#     input_ids = torch.tensor(input_ids, dtype=torch.long)
-#     labels = torch.tensor(labels, dtype=torch.long)
-
-#     data_dict = dict(
-#         input_ids=input_ids,
-#         labels=labels,
-#     )
-#     for m in modalities:
-#         data_dict[m.name] = m.preprocess_rows([item])[0]
-        
-#     return data_dict
-
-# Change encode_chat for Llama 9/20
-# Annotated in 9.24, new one above
-
-# def encode_chat(
-#     item: Dict,
-#     tokenizer: transformers.PreTrainedTokenizer,
-#     modalities: List["Modality"],
-# ) -> Dict:
-#     messages = list(item["messages"])
-#     chat_as_string = tokenizer.apply_chat_template(messages, tokenize=False)
-
-#     token_to_modality = {m.token: m for m in modalities}
-
-#     # Define patterns to detect instructions and modality tokens
-#     instruction_start_pattern = r"<\|start_header_id\|>user<\|end_header_id\|>"
-#     instruction_end_pattern = r"<\|eot_id\|>"
-#     modality_pattern = "(" + "|".join(re.escape(m.token) for m in modalities) + ")"
-
-#     # Split the chat into instruction and non-instruction parts
-#     chat_parts = re.split(f"({instruction_start_pattern}|{instruction_end_pattern})", chat_as_string)
-    
-#     print("chat_parts:", chat_parts, "\n")
-    
-#     input_ids = []
-#     labels = []
-
-#     is_instruction = False  # Flag to track if we are in an instruction block
-    
-#     for part in chat_parts:
-#         # Detect the beginning of an instruction block
-#         if re.match(instruction_start_pattern, part):
-#             is_instruction = True
-#             continue
-#         # Detect the end of an instruction block
-#         elif re.match(instruction_end_pattern, part):
-#             is_instruction = False
-#             continue
-
-#         # Process the content inside the instruction
-#         for subpart in re.split(modality_pattern, part):
-#             if not subpart:
-#                 continue
-            
-#             # Handle modality tokens
-#             if subpart in token_to_modality:
-#                 assert is_instruction, "There should be no modality tokens outside of instructions"
-#                 m = token_to_modality[subpart]
-#                 input_ids.extend([m.token_idx] * m.token_width)
-#                 labels.extend([IGNORE_INDEX] * m.token_width)
-#             else:
-#                 # Tokenize based on whether it's instruction or regular text
-#                 part_ids = tokenizer(subpart, add_special_tokens=False).input_ids
-#                 input_ids.extend(part_ids)
-#                 if is_instruction:
-#                     labels.extend([IGNORE_INDEX] * len(part_ids))  # Mask instructions
-#                 else:
-#                     labels.extend(part_ids)  # Regular content gets labels
-
-#     # Convert lists to tensors
-#     input_ids = torch.tensor(input_ids, dtype=torch.long)
-#     labels = torch.tensor(labels, dtype=torch.long)
-
-#     # Create the data dictionary with input_ids and labels
-#     data_dict = dict(input_ids=input_ids, labels=labels)
-
-#     # Add modality-specific preprocessed data
-#     for m in modalities:
-#         data_dict[m.name] = m.preprocess_rows([item])[0]
-
-#     # print("data_dict:", data_dict, "\n")
-
-#     return data_dict
-
-# def encode_chat(
-#     item: Dict,
-#     tokenizer: transformers.PreTrainedTokenizer,
-#     modalities: List["Modality"],
-# ) -> Dict:
-#     messages = list(item["messages"])
-#     chat_as_string = tokenizer.apply_chat_template(messages, tokenize=False)
-
-#     token_to_modality = {m.token: m for m in modalities}
-
-#     # print("modalities", modalities)
-#     # modalities [<multi_token.modalities.audio_whisper.WhisperAudioModality object at 0x7f5b25c91420>]
-    
-#     modality_token_counts = Counter()
-#     instruct_pattern = r"(\[INST\][\s\S]*?\[\/INST\])"
-#     pattern = "(" + "|".join(re.escape(m.token) for m in modalities) + ")"
-
-#     chat_part = re.split(instruct_pattern, chat_as_string)
-#     input_ids = []
-#     labels = []
-    
-#     # print("chat_part:", chat_part)
-#     # exit()
-    
-#     for part in chat_part:
-#         if "[INST]" in part:
-#             is_instruction = True
-#         else:
-#             is_instruction = False
-#         for subpart in re.split(pattern, part):
-#             if not subpart:
-#                 continue
-#             if subpart in token_to_modality:
-#                 assert (
-#                     is_instruction
-#                 ), "There should be no modality tokens outside of instructions"
-#                 m = token_to_modality[subpart]
-#                 # print("m", m, m.name) # m <multi_token.modalities.audio_whisper.WhisperAudioModality object at 0x7fb774e00e20> audio_whisper
-                
-#                 modality_token_counts[m.name] += 1
-#                 input_ids.extend([m.token_idx] * m.token_width)
-#                 labels.extend([IGNORE_INDEX] * m.token_width)
-                
-#                 # print("token_width:", m.token_width) # 10
-#             elif is_instruction:
-#                 part_ids = tokenizer(subpart, add_special_tokens=False).input_ids
-#                 input_ids.extend(part_ids)
-#                 labels.extend([IGNORE_INDEX] * len(part_ids))
-#             else:
-#                 part_ids = tokenizer(subpart, add_special_tokens=False).input_ids
-#                 input_ids.extend(part_ids)
-#                 labels.extend(part_ids)
-
-#     input_ids = torch.tensor(input_ids, dtype=torch.long)
-#     labels = torch.tensor(labels, dtype=torch.long)
-
-#     data_dict = dict(
-#         input_ids=input_ids,
-#         labels=labels,
-#     )
-#     for m in modalities:
-#         data_dict[m.name] = m.preprocess_rows([item])[0]
-        
-#     # print("data_dict:", data_dict)
-#     return data_dict
-
 
 def load_image(value: Any) -> Image.Image:
     img = None

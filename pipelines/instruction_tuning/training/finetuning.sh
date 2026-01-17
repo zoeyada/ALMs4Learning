@@ -3,7 +3,7 @@
 # set your model and modality and hyperparameters
 model="meta-llama/Llama-3.1-8B-Instruct" # "meta-llama/Llama-3.1-8B-Instruct" or "mistralai/Mistral-7B-Instruct-v0.1"
 modality_builder="audio_whisper" # 'audio_wav2vec2' or 'audio_whisper'
-modality_type="large" # for 'audio_wav2vec2': 'base', 'large'; for 'audio_whisper': 'small', 'medium', 'large'
+modality_type="base" # for 'audio_wav2vec2': 'base', 'large'; for 'audio_whisper': 'small', 'medium', 'large'
 
 model_name=$( [[ $model == *llama* ]] && echo llama || echo mistral )
 asr_name=$( [[ $modality_builder == *wav2vec2* ]] && echo wav2vec2 || echo whisper )
@@ -11,9 +11,9 @@ asr_name=$( [[ $modality_builder == *wav2vec2* ]] && echo wav2vec2 || echo whisp
 # set your hyperparameters.
 # note: per_device_train_batch_size × gradient_accumulation_steps × num_gpus = 128 (batch size）
 per_device_train_batch_size=4
-gradient_accumulation_steps=8
+gradient_accumulation_steps=16
 lr=9e-4 # 9e-4 is good.
-num_train_epochs=1 # 5 is good.
+num_train_epochs=5 # 5 is good.
 lora_r=4
 
 # set your save strategy
@@ -50,7 +50,7 @@ deepspeed ./pipelines/instruction_tuning/training/train_model.py \
     --model_max_length 2048 \
     --evaluation_strategy "no" \
     --save_strategy ${save_strategy} \
-    --save_steps 10 \
+    --save_steps 200 \
     --save_total_limit 1 \
     --learning_rate ${lr} \
     --weight_decay 0.0 \

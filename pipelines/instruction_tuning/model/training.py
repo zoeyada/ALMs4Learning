@@ -188,22 +188,6 @@ def train_for_modalities(
         use_fast=False,
     )
     fix_tokenizer(tokenizer)
-    # print(tokenizer)
-    # exit()
-    
-    # Combine Dataset, 10/11
-
-    # commonvoice200k = LMMDataset(DataArguments(dataset_path='/data2/cuizhouying/data/pretrain_commonvoice200k_20241010'), tokenizer, modalities)
-    # timit6_3k = LMMDataset(DataArguments(dataset_path='/data2/cuizhouying/data/pretrain_timit6.3k_20241010'), tokenizer, modalities)
-    # dataset = CombinedDataset([commonvoice200k, timit6_3k], seed=42, weights=[0.8, 0.2])
-    # dataset = commonvoice200k
-    # dataset = timit6_3k
-    
-    # l2arctic = LMMDataset(DataArguments(dataset_path='/data2/cuizhouying/data/finetune_l2arctic_20241017'), tokenizer, modalities)
-    # speechocean_train = LMMDataset(DataArguments(dataset_path='/data2/cuizhouying/data/finetune_speechocean_train_20241018'), tokenizer, modalities)
-    # speechocean = LMMDataset(DataArguments(dataset_path='/data2/cuizhouying/data/finetune_speechocean_20241021'), tokenizer, modalities)   
-
-    # dataset = CombinedDataset([l2arctic, speechocean_train], seed=42, weights=[0.5, 0.5])
     
     # dataset_path from data_args
     dataset = LMMDataset(data_args, tokenizer, modalities, model_args.model_cls)
@@ -213,7 +197,6 @@ def train_for_modalities(
         model_args.model_name_or_path,
         cache_dir=training_args.cache_dir,
         attn_implementation="flash_attention_2",
-        # device_map="balanced",
         torch_dtype=torch.float16
     )
     
@@ -240,18 +223,6 @@ def train_for_modalities(
     if training_args.lora_enable:
         logging.info("Adding LoRA adapters...")
         model = make_model_lora(model, training_args)
-        # for name, param in model.named_parameters():
-        #     if param.requires_grad:
-        #         print(f"Name: {name}, Shape: {param.shape}")
-        
-
-        # num_trainable_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
-        # total_params = sum(p.numel() for p in model.parameters())
-
-        # print(f"Trainable parameters: {num_trainable_params}")
-        # print(f"Total parameters: {total_params}") #167772160
-        
-        # exit()
 
     if training_args.pretrained_projectors_path:
         projector_weights = torch.load(
@@ -263,18 +234,8 @@ def train_for_modalities(
     else:
         projector_weights = {}
 
-    # print("modalities:", modalities)
-    # exit()
     model.get_model().initialize_modules(modalities, projector_weights)
 
-    # num_trainable_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
-    # total_params = sum(p.numel() for p in model.parameters())
-
-    # print(f"Trainable parameters: {num_trainable_params}")
-    # print(f"Total parameters: {total_params}") #187703296
-        
-    # exit()
-    # print(training_args.pretrain_projectors) # Set False by hand
     if training_args.pretrain_projectors:
         model.requires_grad_(False)
         for m in modalities:
@@ -288,32 +249,6 @@ def train_for_modalities(
     ) as f:
         for name, param in model.named_parameters():
             f.write(f"{name} {param.shape} {param.requires_grad}\n")
-
-    # with open(os.path.join(training_args.output_dir, "README.md"), "w") as f:
-    #     modalities_text = [
-    #         f"* {m.__class__.__name__} (use `{m.token}` in text and provide `{m.data_key}`, encoded as {m.token_width} tokens)"
-    #         for m in modalities
-    #     ]
-    #     readme_text = README_TEMPLATE.format(
-    #         base_model=model_args.model_name_or_path,
-    #         dataset=data_args.dataset_path,
-    #         dataset_example=repr(dataset.get_example()),
-    #         num_examples=len(dataset),
-    #         modalities="\n".join(modalities_text),
-    #         training_devices_dump=_get_training_devices_dump(),
-    #         repr_model=f"{model_cls.__name__}.model =\n\n{repr(model)}",
-    #     )
-    #     f.write(readme_text)
-    
-    # if training_args.lora_enable == False:
-    #     for param in model.parameters():
-    #         param.requires_grad = True
-
-    # num_trainable_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
-    # total_params = sum(p.numel() for p in model.parameters())
-
-    # print(f"Trainable parameters: {num_trainable_params}")
-    # print(f"Total parameters: {total_params}")
 
     if training_args.bf16:
         for name, param in model.named_parameters():
@@ -329,13 +264,6 @@ def train_for_modalities(
             if param.grad is not None:
                 param.grad.data = param.grad.data.to(torch.bfloat16)
 
-
-    # print(f"Model dtype: {next(model.parameters()).dtype}")
-    # for name, param in model.named_parameters():
-    #     print(f"{name}: {param.dtype}")
-
-    # exit()
-
     trainer = LMMTrainer(
         model=model,
         tokenizer=tokenizer,
@@ -344,28 +272,6 @@ def train_for_modalities(
         train_dataset=dataset,
         eval_dataset=None,
     )
-    
-    # num_trainable_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
-    # total_params = sum(p.numel() for p in model.parameters())
-
-    # print(f"Trainable parameters: {num_trainable_params}")
-    # print(f"Total parameters: {total_params}")    
-    # exit()
-    
-    # for name, param in model.named_parameters():
-    #     print(f"Name: {name}, Shape: {param.shape}, Requires Grad: {param.requires_grad}")
-    # exit()
-    
-    # num_trainable_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
-    # total_params = sum(p.numel() for p in model.parameters())
-    # print(f"Trainable parameters: {num_trainable_params}") #19931136
-    # print(f"Total parameters: {total_params}")
-    # exit()
-
-    # for name, param in model.named_parameters():
-    #     if "lora" in name:
-    #         print(f"LoRA Layer: {name}, Trainable: {param.requires_grad}, Shape: {param.shape}")
-    # exit()
 
     if list(pathlib.Path(training_args.output_dir).glob(f"{PREFIX_CHECKPOINT_DIR}-*")):
         trainer.train(resume_from_checkpoint=True)

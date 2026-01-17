@@ -8,12 +8,12 @@ import os
 test_data = "./data/L2-Arctic-plus/test_data.json"
 with open(test_data, 'r', encoding='utf-8') as f:
     test_data = json.load(f)
-    test_data = test_data[:2]
-    
-api_key = "" # replace with your API key
+    # test_data = test_data[:2]
+
+api_key = "<API_KEY>" # replace with your API key
 client = OpenAI(api_key=api_key)
     
-output_path = "./pipelines/existing_alms/results/gpt4o.json"
+output_path = "./pipelines/existing_alms/alms/results/gpt4o.json"
 results = []
 
 tqdm_iter = tqdm(test_data, desc="Processing", unit="file")

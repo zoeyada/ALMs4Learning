@@ -129,17 +129,6 @@ def load_trained_lora_model(
         model = model.merge_and_unload()
     model.eval()
 
-    # for name, param in model.named_parameters():
-    #     param.data = param.data.to(torch.bfloat16)
-    #     if param.grad is not None:
-    #         param.grad.data = param.grad.data.to(torch.bfloat16)
-
-    # print(f"Model dtype: {next(model.parameters()).dtype}")
-    # for name, param in model.named_parameters():
-    #     print(f"{name}: {param.dtype}")
-
-    # exit()
-
     return model, tokenizer
 
 def load_pretrained_model(
@@ -175,8 +164,6 @@ def load_pretrained_model(
     cfg = AutoConfig.from_pretrained(model_pretrain_path)
     if model_cls is None:
         model_cls = LANGUAGE_MODEL_NAME_TO_CLASS[cfg.model_cls]
-    # if modalities is None:
-    #     modalities = MODALITY_BUILDERS[cfg.modality_builder]()
 
     if modalities is None:
         modalities = []
@@ -227,7 +214,6 @@ def load_pretrained_model(
         non_lora_trainables = torch.load(
             os.path.join(model_pretrain_path, "non_lora_trainables.bin"), map_location="cpu"
         )
-        # print(non_lora_trainables)
     else:
         local_fn = hf_hub_download(
             repo_id=model_pretrain_path,
@@ -238,11 +224,5 @@ def load_pretrained_model(
     model.get_model().initialize_pretrained_modules(modalities, non_lora_trainables)
     # model.projector = load_results
     model.eval()
-
-    # print(f"Model dtype: {next(model.parameters()).dtype}")
-    # for name, param in model.named_parameters():
-    #     print(f"{name}: {param.dtype}")
-
-    # exit()
 
     return model, tokenizer

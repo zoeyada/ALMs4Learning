@@ -13,9 +13,6 @@ def _find_all_linear_names(model) -> List[str]:
 
     if "lm_head" in lora_module_names:
         lora_module_names.remove("lm_head")
-        
-    # print(list(lora_module_names))
-    # ['o_proj', 'q_proj', 'up_proj', 'down_proj', 'gate_proj', 'k_proj', 'v_proj']
     
     return list(lora_module_names)
 
@@ -93,13 +90,7 @@ def make_model_lora(model, training_args: "TrainingArguments"):
             model.to(torch.float16)
 
     model = get_peft_model(model, lora_config)
-    # for name, param in model.named_parameters():
-    #     if param.requires_grad:
-    #         print(f"Name: {name}, Shape: {param.shape}")
-    # exit()
-    
 
-    
     return model
 
 

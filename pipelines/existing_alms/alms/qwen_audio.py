@@ -1,18 +1,20 @@
 import json
 from transformers import AutoModelForCausalLM, AutoTokenizer
 import torch
+import os
 from tqdm import tqdm  
 
 # qwen-audio
 tokenizer = AutoTokenizer.from_pretrained("Qwen/Qwen-Audio-Chat", trust_remote_code=True)
 model = AutoModelForCausalLM.from_pretrained("Qwen/Qwen-Audio-Chat", device_map="cuda", trust_remote_code=True).eval()
 test_data = "./data/L2-Arctic-plus/test_data.json"
-output_path = "./pipelines/existing_alms/results/qwen.json"
+output_path = "./pipelines/existing_alms/alms/results/qwen.json"
 
 output_results = []
 
 with open(test_data, "r") as f:
     data = json.load(f)
+    # data = data[:2]  
 
 
 for entry in tqdm(data, desc="Processing entries"):
@@ -70,6 +72,6 @@ for entry in tqdm(data, desc="Processing entries"):
         })
     except Exception as e:
         print(f"Error processing entry with audio_path {audio_path}: {e}")
-
+os.makedirs(os.path.dirname(output_path), exist_ok=True)
 with open(output_path, "w") as f:
     json.dump(output_results, f, indent=4, ensure_ascii=False)
