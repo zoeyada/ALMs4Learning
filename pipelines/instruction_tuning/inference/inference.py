@@ -8,9 +8,9 @@ from pipelines.instruction_tuning.model.data_tools import encode_chat
 
 test_data = "./data/L2-Arctic-plus/test_data.json"
 
-model_name_or_path = "meta-llama/Llama-3.1-8B-Instruct"
+model_name_or_path = "mistralai/Mistral-7B-Instruct-v0.1"
 modality_builder = "audio_whisper"
-modality_builder_type = "large"
+modality_builder_type = "small"
 
 model_name = "llama" if "llama" in model_name_or_path.lower() else "mistral"
 asr_name = "wav2vec2" if "wav2vec2" in modality_builder else "whisper"
