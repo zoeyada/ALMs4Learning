@@ -2,13 +2,6 @@ import json
 import re
 import os
 
-# Put your files that need to be parsed here (only for instruction tuning pipeline)
-# The default input base path is "./pipelines/instruction_tuning/inference/results" 
-# FILES_TO_PROCESS = [
-#     "/data2/cuizhouying/ALMs4Learning/pipelines/instruction_tuning/inference/results/mistral_whisper_small.json",
-# ]
-
-# OUTPUT_BASE = "/home/cuizhouying/ALMs4Learning/pipelines/instruction_tuning/parse/results"
 
 FILES_TO_PROCESS = [
     "./pipelines/instruction_tuning/inference/results/mistral_whisper_small.json",
