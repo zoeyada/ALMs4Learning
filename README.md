@@ -33,7 +33,9 @@ ALMs4Learning/
 │   ├── existing_alms/            # GPT-4o, Qwen Audio, Qwen2 Audio baselines
 │   └── instruction_tuning/       # Model configs, training, inference, parsing
 ├── eval/                         # Unified evaluation script + results
-└── environment.yml
+├── image/
+├── environment_base.yml
+└── environment_instruct_tuning.yml
 ```
 
 ## 🎙️ Data Preparation
