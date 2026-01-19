@@ -4,13 +4,17 @@ import os
 
 # Put your files that need to be parsed here (only for instruction tuning pipeline)
 # The default input base path is "./pipelines/instruction_tuning/inference/results" 
+# FILES_TO_PROCESS = [
+#     "/data2/cuizhouying/ALMs4Learning/pipelines/instruction_tuning/inference/results/mistral_whisper_small.json",
+# ]
+
+# OUTPUT_BASE = "/home/cuizhouying/ALMs4Learning/pipelines/instruction_tuning/parse/results"
+
 FILES_TO_PROCESS = [
-    "/home/cuizhouying/ALMs4Learning/pipelines/instruction_tuning/inference/results/llama_whisper_large.json",
+    "./pipelines/instruction_tuning/inference/results/mistral_whisper_small.json",
 ]
 
-OUTPUT_BASE = "/home/cuizhouying/ALMs4Learning/pipelines/instruction_tuning/parse/results"
-
-
+OUTPUT_BASE = "./pipelines/instruction_tuning/parse/results"
 def parse_speculative_mispronunciations(entry):
     mis_exp_sug = {}
     raw_text = entry.get("speculative_mispronunciations", "")
