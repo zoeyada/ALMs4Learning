@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # set your model and modality and hyperparameters
-model="meta-llama/Llama-3.1-8B-Instruct" # "meta-llama/Llama-3.1-8B-Instruct" or "mistralai/Mistral-7B-Instruct-v0.1"
+model="mistralai/Mistral-7B-Instruct-v0.1" # "meta-llama/Llama-3.1-8B-Instruct" or "mistralai/Mistral-7B-Instruct-v0.1"
 modality_builder="audio_whisper" # 'audio_wav2vec2' or 'audio_whisper'
-modality_type="base" # for 'audio_wav2vec2': 'base', 'large'; for 'audio_whisper': 'small', 'medium', 'large'
+modality_type="small" # for 'audio_wav2vec2': 'base', 'large'; for 'audio_whisper': 'small', 'medium', 'large'
 
 model_name=$( [[ $model == *llama* ]] && echo llama || echo mistral )
 asr_name=$( [[ $modality_builder == *wav2vec2* ]] && echo wav2vec2 || echo whisper )

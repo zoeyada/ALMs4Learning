@@ -17,7 +17,9 @@ All experiments were conducted on **NVIDIA A40 GPUs (46GB)** using strictly cont
 git clone <your-git-remote> ALMs4Learning
 cd ALMs4Learning
 
-conda env create -f environment.yml
+conda env create -f environment_base.yml
+conda env create -f environment_instruct_tuning.yml
+conda activate ALMs_base
 ```
 
 ## 📁 Project Layout
@@ -174,6 +176,7 @@ Parsed outputs are stored in:
 Pretraining is launched using the following script:
 
 ```bash
+conda activate ALMs_instruct_tuning
 bash ./pipelines/instruction_tuning/training/pretraining.sh
 ```
 

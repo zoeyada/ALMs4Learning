@@ -7,7 +7,7 @@ from datasets import Dataset
 # Reminder: Please specify the correct output folder path.
 # It is recommended to save your output in a subfolder within the default directory "./data/training_datasets/finetune".
 
-test_data = "./data/L2-Arctic-plus/test_data.json"
+test_data = "./data/L2-Arctic-plus/train_data.json"
 
 def _load_data_from_json():
     with open(test_data, "r") as f:
