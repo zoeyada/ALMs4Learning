@@ -3,7 +3,7 @@
 
 ![Pipeline Overview](/image/fig_pipeline.jpg)
 
-This repository contains code and analysis for the paper [unlocking Large Audio-Language Models for Interactive Language Learning](http://arxiv.org/abs/2601.14744).
+This repository contains code and analysis for the paper [Unlocking Large Audio-Language Models for Interactive Language Learning](http://arxiv.org/abs/2601.14744).
 
 We investigate how **Large Audio-Language Models (ALMs)** can be adapted for **L2 pronunciation training**, focusing on mispronunciation detection and human-friendly feedback generation.  The system covers three components:
 
