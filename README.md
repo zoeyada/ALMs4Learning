@@ -35,6 +35,8 @@ ALMs4Learning/
 │   ├── existing_alms/            # GPT-4o, Qwen Audio, Qwen2 Audio baselines
 │   └── instruction_tuning/       # Model configs, training, inference, parsing
 ├── eval/                         # Unified evaluation script + results
+├── LICENSE
+├── README.md
 ├── image/
 ├── environment_base.yml
 └── environment_instruct_tuning.yml
@@ -243,7 +245,7 @@ Parsed results are saved to:
 ./pipelines/instruction_tuning/parse/results/{llm}_{asr}_{modality}.json
 ```
 
-### 📊 Unified Evaluation
+## 📊 Unified Evaluation
 
 Produces 8 metrics across two groups:
 
@@ -288,3 +290,7 @@ Format:
   }
 ]
 ```
+
+## 📄 License
+This repository is licensed under the MIT License — see the LICENSE file for details.
+
